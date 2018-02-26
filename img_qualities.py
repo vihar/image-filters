@@ -1,9 +1,9 @@
-from PIL import Image
+import PIL
+from PIL import Image, ImageStat
 import numpy as np
 import scipy
 from scipy import stats
 
-import matplotlib.pyplot as plt
 image = Image.open("airplane.png")
 img_pixel_array = np.array(image)
 print(img_pixel_array)
@@ -28,3 +28,17 @@ print(rgb_array)
 print(rgb_array[2])
 print(bw_array[2])
 """
+
+stat = ImageStat.Stat(image)
+print("Extrema")
+print(stat.extrema)
+print("Pixel RMS")
+print(stat.rms[0])
+print("Pixel Count")
+print(stat.count)
+print("Pixel Median")
+print(stat.median)
+print("Standard Deviation")
+print(stat.stddev)
+print("Variance")
+print(stat.var)
