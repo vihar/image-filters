@@ -1,11 +1,14 @@
 import PIL
-from PIL import Image, ImageStat
+from PIL import Image, ImageStat, ImageFilter
 import numpy as np
 import scipy
 from scipy import stats
 
 
-images = ['airplane.png']
+images = ['airplane.png', 'output.png', 'endge_enhance.png']
+im = Image.open('airplane.png')
+# im1 = im.filter(ImageFilter.EDGE_ENHANCE)
+# im1.save('endge_enhance.png')
 
 for i in images:
     image = Image.open(i)
