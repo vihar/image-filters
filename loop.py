@@ -6,7 +6,7 @@ from scipy import stats
 import pandas as pd
 import csv
 
-images = ['airplane.png', 'test.jpg']
+images = ['airplane.png', 'test.jpg','output.png']
 im = Image.open('test.jpg')
 im1 = im.filter(ImageFilter.EDGE_ENHANCE)
 im1.save('test_sharp.png')

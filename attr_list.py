@@ -1,9 +1,32 @@
+import PIL
+from PIL import Image, ImageStat, ImageFilter
+import numpy as np
+import scipy
+from scipy import stats
+import pandas as pd
 import csv
 
+images = ['sky.jpg','flower.jpg', 'fruits.jpg', 'pool.png', 'tulips.png','airplane.png','endge_enhance.png','gaussian.png']
+# im = Image.open('test.jpg')
+# im1 = im.filter(ImageFilter.EDGE_ENHANCE)
+# im1.save('test_sharp.png')
 
-attr = (
-	[snr, stat.extrema, stat.rms[0],stat.count, stat.median, stat.stddev, stat.var]
-	)
-for item in attr:
-    worksheet.write_string  (row, col,     item              )
 
+with open('values.csv', 'w') as csvfile:
+    fieldnames = ['IMAGE NAME', 'SNR', 'extrema', 'RMS',
+                  'Count', "Median", "Standard Deviation", "Variance"]
+    for i in images:
+        image = Image.open(i)
+        snr = scipy.stats.signaltonoise(image, axis=None)
+        stat = ImageStat.Stat(image)
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writerow({
+            'IMAGE NAME': i,
+            'SNR': snr,
+            'extrema': stat.extrema,
+            'RMS': stat.rms[0],
+            'Count': stat.count,
+            "Median": stat.median,
+            "Standard Deviation": stat.stddev,
+            "Variance": stat.var
+        })
