@@ -3,17 +3,28 @@ from PIL import Image, ImageStat, ImageFilter
 import numpy as np
 import scipy
 from scipy import stats
+import pandas as pd
+import csv
 
-
-images = ['airplane.png', 'output.png', 'endge_enhance.png']
-im = Image.open('airplane.png')
-# im1 = im.filter(ImageFilter.EDGE_ENHANCE)
-# im1.save('endge_enhance.png')
+images = ['airplane.png', 'test.jpg']
+im = Image.open('test.jpg')
+im1 = im.filter(ImageFilter.EDGE_ENHANCE)
+im1.save('test_sharp.png')
 
 for i in images:
     image = Image.open(i)
     snr = scipy.stats.signaltonoise(image, axis=None)
     stat = ImageStat.Stat(image)
-    print("SNR\tExtrema\tRMS\tCount\tMedian\tStandard Deviation\tVariance")
-    print(snr, stat.extrema, stat.rms[0],
-          stat.count, stat.median, stat.stddev, stat.var)
+    with open('values.csv', 'w') as csvfile:
+        fieldnames = ['IMAGE NAME', 'SNR', 'extrema', 'RMS', 'Count', "Median", "Standard Deviation", "Variance"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writerow({
+            'IMAGE NAME': i,
+            'SNR': snr,
+            'extrema': stat.extrema,
+            'RMS': stat.rms[0],
+            'Count': stat.count,
+            "Median": stat.median,
+            "Standard Deviation": stat.stddev,
+            "Variance": stat.var
+        })
