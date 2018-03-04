@@ -6,7 +6,7 @@ import math
 
 
 def distance(x, y, i, j):
-    return np.sqrt((x-i)**2 + (y-j)**2)
+    return np.sqrt((x - i)**2 + (y - j)**2)
 
 
 def gaussian(x, sigma):
@@ -14,7 +14,7 @@ def gaussian(x, sigma):
 
 
 def apply_bilateral_filter(source, filtered_image, x, y, diameter, sigma_i, sigma_s):
-    hl = diameter/2
+    hl = diameter / 2
     i_filtered = 0
     Wp = 0
     i = 0
@@ -27,7 +27,8 @@ def apply_bilateral_filter(source, filtered_image, x, y, diameter, sigma_i, sigm
                 neighbour_x -= len(source)
             if neighbour_y >= len(source[0]):
                 neighbour_y -= len(source[0])
-            gi = gaussian(source[neighbour_x][neighbour_y] - source[x][y], sigma_i)
+            gi = gaussian(source[neighbour_x]
+                          [neighbour_y] - source[x][y], sigma_i)
             gs = gaussian(distance(neighbour_x, neighbour_y, x, y), sigma_s)
             w = gi * gs
             i_filtered += source[neighbour_x][neighbour_y] * w
@@ -45,7 +46,8 @@ def bilateral_filter_own(source, filter_diameter, sigma_i, sigma_s):
     while i < len(source):
         j = 0
         while j < len(source[0]):
-            apply_bilateral_filter(source, filtered_image, i, j, filter_diameter, sigma_i, sigma_s)
+            apply_bilateral_filter(
+                source, filtered_image, i, j, filter_diameter, sigma_i, sigma_s)
             j += 1
         i += 1
     return filtered_image

@@ -6,17 +6,19 @@ from scipy import stats
 import pandas as pd
 import csv
 
-images = ['airplane.png', 'test.jpg','output.png']
-im = Image.open('test.jpg')
-im1 = im.filter(ImageFilter.EDGE_ENHANCE)
-im1.save('test_sharp.png')
+images = ['tulips.png', 'tulips.png']
+
+# im = Image.open('test.jpg')
+# im1 = im.filter(ImageFilter.EDGE_ENHANCE)
+# im1.save('test_sharp.png')
 
 for i in images:
     image = Image.open(i)
     snr = scipy.stats.signaltonoise(image, axis=None)
     stat = ImageStat.Stat(image)
     with open('values.csv', 'w') as csvfile:
-        fieldnames = ['IMAGE NAME', 'SNR', 'extrema', 'RMS', 'Count', "Median", "Standard Deviation", "Variance"]
+        fieldnames = ['IMAGE NAME', 'SNR', 'extrema', 'RMS',
+                      'Count', "Median", "Standard Deviation", "Variance"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writerow({
             'IMAGE NAME': i,
